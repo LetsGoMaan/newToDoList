@@ -15,3 +15,14 @@
 .taskDeleteButton {
     margin: 0 5px;
 }
+
+.error {
+    border: red 1px solid;
+}
+.errorMessage {
+    color: red;
+}
+
+.activeFilter {
+    background-color: aquamarine;
+}

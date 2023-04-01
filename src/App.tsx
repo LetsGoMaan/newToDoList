@@ -6,13 +6,13 @@ import {v1} from "uuid";
 export type FilterButtonType = "all" | "active" | "completed"
 
 function App() {
-    const [tasks, setTasks] = useState<Array<TaskType>> ([
+    let [tasks, setTasks] = useState<Array<TaskType>> ([
             {id: v1(), title: "War and Peace", isDone: false},
             {id: v1(), title: "Art of War", isDone: true},
             {id: v1(), title: "Noise and Fury", isDone: false},
 
         ])
-    const [filter, setFilter] = useState("all")
+    const [filter, setFilter] = useState<FilterButtonType>("all")
 
 
     const removeTask = (taskId: string) => {
@@ -25,6 +25,13 @@ function App() {
     const addTask = (newTaskTitle: string) => {
         const newTask = {id: v1(), title: newTaskTitle, isDone: false}
         setTasks([newTask, ...tasks])
+    }
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const task = tasks.find(task => task.id === taskId)
+        if(task) {
+            task.isDone = isDone
+        }
+        setTasks([...tasks])
     }
 
     let filteredTasks = tasks
@@ -45,6 +52,8 @@ function App() {
                 removeTask={removeTask}
                 changeFilter = {changeFilter}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
+                filter={filter}
             />
 
 
