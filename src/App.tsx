@@ -1,24 +1,30 @@
 import React, {useState} from "react";
 import styles from "./App.module.css";
 import {TaskType, Todolist} from "./components/Todolist/Todolist";
+import {v1} from "uuid";
 
 export type FilterButtonType = "all" | "active" | "completed"
 
 function App() {
     const [tasks, setTasks] = useState<Array<TaskType>> ([
-            {id: 1, title: "War and Peace", isDone: false},
-            {id: 2, title: "Art of War", isDone: true},
-            {id: 3, title: "Noise and Fury", isDone: false},
+            {id: v1(), title: "War and Peace", isDone: false},
+            {id: v1(), title: "Art of War", isDone: true},
+            {id: v1(), title: "Noise and Fury", isDone: false},
+
         ])
     const [filter, setFilter] = useState("all")
 
 
-    const removeTask = (taskId: number) => {
+    const removeTask = (taskId: string) => {
         const filteredTasks = tasks.filter(task => task.id !== taskId)
         setTasks(filteredTasks)
     }
     const changeFilter = (filter: FilterButtonType ) => {
         setFilter(filter)
+    }
+    const addTask = (newTaskTitle: string) => {
+        const newTask = {id: v1(), title: newTaskTitle, isDone: false}
+        setTasks([newTask, ...tasks])
     }
 
     let filteredTasks = tasks
@@ -38,6 +44,7 @@ function App() {
                 tasks={filteredTasks}
                 removeTask={removeTask}
                 changeFilter = {changeFilter}
+                addTask={addTask}
             />
 
 
