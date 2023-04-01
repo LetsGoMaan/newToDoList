@@ -1,0 +1,17 @@
+
+.tasksList {
+    padding: 0;
+}
+
+.tasks {
+    list-style-type: none;
+}
+
+.finishedTask {
+    text-decoration:  line-through;
+    opacity: 0.5;
+}
+
+.taskDeleteButton {
+    margin: 0 5px;
+}
