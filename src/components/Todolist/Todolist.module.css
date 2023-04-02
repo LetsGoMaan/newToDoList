@@ -1,4 +1,7 @@
-
+.todoTitle {
+    display: inline-block;
+    margin-right: 10px;
+}
 .tasksList {
     padding: 0;
 }
