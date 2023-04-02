@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import styles from "./App.module.css";
-import {Todolist} from "./components/Todolist/Todolist";
+import {TaskType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 
 export type FilterButtonType = "all" | "active" | "completed"
 
@@ -11,15 +12,19 @@ type TodolistType = {
     filter: FilterButtonType
 }
 
+type TaskStateType = {
+    [key: string]: Array<TaskType>
+}
+
 function App() {
     const todolists1 = v1()
     const todolists2 = v1()
 
     const [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {id: todolists1, title: "What to learn", filter: "active"},
-        {id: todolists2, title: "What to read", filter: "completed"},
+        {id: todolists1, title: "What to learn", filter: "all"},
+        {id: todolists2, title: "What to read", filter: "all"},
     ])
-    const [tasksObj, setTasks] = useState({
+    const [tasksObj, setTasks] = useState<TaskStateType>({
         [todolists1]: [
             {id: v1(), title: "War and Peace", isDone: false},
             {id: v1(), title: "Art of War", isDone: true},
@@ -31,15 +36,13 @@ function App() {
             {id: v1(), title: "Noise and Fury", isDone: false},
         ]
     })
-
-
     const removeTask = (taskId: string, todolistId: string) => {
         const tasks = tasksObj[todolistId]
         tasksObj[todolistId] = tasks.filter(task => task.id !== taskId)
 
         setTasks({...tasksObj})
     }
-    const changeFilter = (filter: FilterButtonType, todolistId: string) => {
+    const changeFilter = (todolistId: string, filter: FilterButtonType) => {
         const todolist = todolists.find(todo => todo.id === todolistId )
         if(todolist) {
             todolist.filter = filter
@@ -47,7 +50,7 @@ function App() {
         }
 
     }
-    const addTask = (newTaskTitle: string, todolistId: string) => {
+    const addTask = (todolistId: string, newTaskTitle: string, ) => {
         const tasks = tasksObj[todolistId]
         const newTask = {id: v1(), title: newTaskTitle, isDone: false}
         tasksObj[todolistId] = [newTask, ...tasks ]
@@ -61,18 +64,39 @@ function App() {
             setTasks({...tasksObj})
         }
     }
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        const tasks = tasksObj[todolistId]
+        const task = tasks.find(task => task.id === taskId)
+        if (task) {
+            task.title = newTitle
+            setTasks({...tasksObj})
+        }
+    }
     const removeTodolist = (todolistId: string) => {
         const filteredTodolist = todolists.filter(todo => todo.id !== todolistId)
         setTodolists([...filteredTodolist])
         delete tasksObj[todolistId]
         setTasks({...tasksObj})
     }
-
+    const addNewTodolist = (newTitle: string) => {
+        const newTodolist: TodolistType = {id: v1(), title: newTitle, filter: "all"}
+        setTodolists([newTodolist, ...todolists])
+        tasksObj[newTodolist.id] = []
+        setTasks({...tasksObj})
+    }
+    const changeTodolistTitle = (todolistId: string, newTitle: string ) => {
+        const todolist = todolists.find(todo => todo.id === todolistId )
+        if(todolist) {
+            todolist.title = newTitle
+            setTodolists([...todolists])
+        }
+    }
 
 
 
     return (
         <div className={styles.appContainer}>
+            <AddItemForm addItem={addNewTodolist}/>
             {todolists.map(todo => {
                 let filteredTasks = tasksObj[todo.id]
                 if (todo.filter === "active") {
@@ -91,8 +115,10 @@ function App() {
                         changeFilter={changeFilter}
                         addTask={addTask}
                         changeTaskStatus={changeTaskStatus}
+                        changeTaskTitle={changeTaskTitle}
                         filter={todo.filter}
                         removeTodolist={removeTodolist}
+                        changeTodolistTitle={changeTodolistTitle}
                     />
                 )
             })}
