@@ -1,3 +1,7 @@
+.addTaskButton {
+    margin-left: 10px;
+}
+
 .error {
     border: red 1px solid;
 }

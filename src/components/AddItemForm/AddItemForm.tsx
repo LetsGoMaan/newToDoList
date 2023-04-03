@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import styles from "./AddItemForm.module.css";
+import {IconButton, TextField} from "@mui/material";
+import {AddTask} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     addItem: (newTaskTitle: string) => void
@@ -30,13 +31,17 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     }
     return (
         <div>
-            <input value={newTaskTitle}
+            <TextField value={newTaskTitle}
+                       variant={"outlined"}
+                       label={"Type value"}
                    onChange={onChangeHandler}
                    onKeyDown={onKeyDownHandler}
-                   className={error ? styles.error : ""}
+                   error={!!error}
+                       helperText={error}
             />
-            <button onClick={addTaskHandler}>+</button>
-            <div className={styles.errorMessage}>{error}</div>
+            <IconButton onClick={addTaskHandler} color={"primary"} size={"large"} >
+                <AddTask/>
+            </IconButton>
         </div>
     )
 
