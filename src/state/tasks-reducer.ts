@@ -34,7 +34,10 @@ type ActionsType = RemoveTaskAT | AddTaskAT | ChangeTaskStatusAT | ChangeTaskTit
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export const tasksReducer = (state: TasksStateType, action: ActionsType):TasksStateType => {
+
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType):TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             let stateCopy = {...state}
@@ -77,15 +80,15 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType):TasksSt
             return  stateCopy
         }
         default:
-            throw new Error('I don\'t understand this type')
+            return state
     }
 }
 
 export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskAT => {
     return {type: 'REMOVE-TASK', taskId: taskId, todolistId: todolistId}
 }
-export const addTaskAC = (taskTitle: string, todolistId: string): AddTaskAT => {
-    return {type: 'ADD-TASK', taskTitle: taskTitle, todolistId: todolistId }
+export const addTaskAC = (todolistId: string, taskTitle: string): AddTaskAT => {
+    return {type: 'ADD-TASK',todolistId: todolistId, taskTitle: taskTitle  }
 }
 export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string): ChangeTaskStatusAT => {
     return {type: 'CHANGE-TASK-STATUS', taskId: taskId, isDone: isDone, todolistId: todolistId }

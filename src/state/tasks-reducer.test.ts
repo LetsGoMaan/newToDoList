@@ -47,7 +47,7 @@ test('correct task should be added to correct array', () => {
         ]
     }
 
-    const action = addTaskAC('juice', 'todolistId2')
+    const action = addTaskAC('todolistId2','juice' )
 
     const endState = tasksReducer(startState, action)
 

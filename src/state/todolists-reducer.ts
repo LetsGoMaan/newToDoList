@@ -28,12 +28,17 @@ type ActionsType = RemoveTodolistAT | AddTodolistAT |  ChangeTodolistTitleAT | C
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionsType):Array<TodolistType> => {
+
+
+
+const initialState: Array<TodolistType> = []
+
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionsType):Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(todo => todo.id !== action.id)
         case 'ADD-TODOLIST':
-            return [...state, {id: action.todolistId, title: action.title, filter: "all"}]
+            return [{id: action.todolistId, title: action.title, filter: "all"}, ...state]
         case "CHANGE-TODOLIST-TITLE":
         let todolist = state.find(todo => todo.id === action.id)
             if(todolist) {
@@ -49,7 +54,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionsType
         }
 
         default:
-            throw new Error('I don\'t understand this type')
+            return state
     }
 }
 
