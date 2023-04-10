@@ -8,3 +8,4 @@
 8. Редьюсеры, юнит тесты, экшены, создатели экшенов
 9. Редьюсеры , юнит тесты , экшены , создатели экшенов , - для задач. Решение задачи синхрозиации id при отправке экшена в разные редьюсеры
 10. Redux, createStore, combineReducers, AppRootStateType, Provider from react-redux,  return state default initialState, useDispatch react-redux, useSelector react-redux
+10.1 Рефакторинг
