@@ -5,9 +5,19 @@ import {AddTask} from "@mui/icons-material";
 type AddItemFormPropsType = {
     addItem: (newTaskTitle: string) => void
 }
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+    console.log("AddItemForm is called")
     let [newTaskTitle, setNewTaskTitle] = useState("")
     const [error, setError] = useState("")
+    const addTaskHandler = () => {
+        if (newTaskTitle.trim() !== "") {
+            props.addItem(newTaskTitle.trim())
+            setNewTaskTitle("")
+        } else {
+            setError("Title is required")
+        }
+
+    }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setError("")
         setNewTaskTitle(e.currentTarget.value)
@@ -20,15 +30,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             setError("Title is required")
         }
     }
-    const addTaskHandler = () => {
-        if (newTaskTitle.trim() !== "") {
-            props.addItem(newTaskTitle.trim())
-            setNewTaskTitle("")
-        } else {
-            setError("Title is required")
-        }
 
-    }
     return (
         <div>
             <TextField value={newTaskTitle}
@@ -45,4 +47,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         </div>
     )
 
-}
+})
