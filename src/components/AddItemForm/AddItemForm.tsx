@@ -23,11 +23,9 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
         setNewTaskTitle(e.currentTarget.value)
     }
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && newTaskTitle.trim() !== "") {
-            props.addItem(newTaskTitle.trim())
-            setNewTaskTitle("")
-        } else {
-            setError("Title is required")
+        // if(error) setError('')
+        if (e.key === "Enter") {
+            addTaskHandler()
         }
     }
 

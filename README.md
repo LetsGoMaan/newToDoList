@@ -10,3 +10,4 @@
 10. Redux, createStore, combineReducers, AppRootStateType, Provider from react-redux,  return state default initialState, useDispatch react-redux, useSelector react-redux
 10.1 Рефакторинг
 11. Использование React.memo и useCallback, избавление от лишних перерисовок.
+11.1 Рефакторинг
