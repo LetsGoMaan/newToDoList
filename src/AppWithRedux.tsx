@@ -52,6 +52,7 @@ function AppWithRedux() {
     // }
 
     const addNewTodolist = useCallback((newTitle: string) => {
+        debugger
         dispatch(addTodolistAC(newTitle))
     }, [dispatch])
 
